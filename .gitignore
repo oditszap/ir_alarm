@@ -1,0 +1,5 @@
+/ir_alarm
+ir_alarm.*
+*.lst
+*.obj
+*.o

@@ -4,3 +4,4 @@ ir_alarm.*
 *.obj
 *.o
 *.__i
+*.bak

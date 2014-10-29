@@ -1,13 +1,8 @@
-#include <REG52.H>
+#include "uart.h"
 
-void main (void)
+void main()
 {
-    SCON = 0x50;   
-    TMOD = 0x20;   
-    TH1 = 0xFD;    //9600bps@11.0592MHz
-    TL1 = 0xFD;
-    TR1 = 1;                        
-    ES  = 1;      
-    EA  = 1;
-    while(1) ;
+	init_uart();
+	SendString("STC15F2K60S2\r\nUart Test !\r\n");
+    while(1);
 }

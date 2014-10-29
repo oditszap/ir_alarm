@@ -3,3 +3,4 @@ ir_alarm.*
 *.lst
 *.obj
 *.o
+*.__i

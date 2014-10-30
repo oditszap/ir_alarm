@@ -1,5 +1,4 @@
-#include "reg51.h"
-#include "intrins.h"
+#include "configs.h"
 
 typedef unsigned char BYTE;
 typedef unsigned int WORD;

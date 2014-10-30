@@ -1,5 +1,3 @@
-#include "reg51.h"
-
 typedef unsigned char BYTE;
 typedef unsigned int WORD;
 

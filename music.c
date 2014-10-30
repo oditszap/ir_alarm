@@ -1,3 +1,5 @@
+#include "configs.h"
+
 // 音符定义
 #define xz  0	// 休止符
 #define l1  1	// 低音 1
@@ -22,15 +24,16 @@
 #define h6  20	// 高音 6
 #define h7  21	// 高音 7
 
+#if 1 
 // 8位PWM对应的周期值
-const unsigned char pwm8b_mc[] = {
+code const unsigned char pwm8b_mc[] = {
 	0, 120, 106, 95, 89, 80, 71, 63, 
 	60, 53, 47, 45, 40, 36, 32, 30, 
 	27, 24, 22, 20, 18, 16
 };
 	
 // 10位PWM对应的周期值--高字节在前
-const unsigned char pwm10b_mc[] = {
+code const unsigned char pwm10b_mc[] = {
 	0, 0, 3, 188, 3, 97, 2, 247, 
 	2, 204, 2, 126, 2, 56, 1, 250, 
 	1, 222, 1, 170, 1, 123, 1, 102, 
@@ -38,9 +41,10 @@ const unsigned char pwm10b_mc[] = {
 	0, 213, 0, 190, 0, 179, 0, 159, 
 	0, 142, 0, 127
 };
+#endif
 
 // 16位PWM对应的周期值--高字节在前
-const unsigned char pwm16b_mc[] = {
+code const unsigned char pwm16b_mc[] = {
 	0, 0, 59, 192, 54, 17, 47, 108, 
 	44, 197, 39, 220, 35, 131, 31, 161, 
 	29, 224, 26, 153, 23, 182, 22, 95, 
@@ -50,7 +54,7 @@ const unsigned char pwm16b_mc[] = {
 };
 
 // 铃儿响叮当
-const unsigned char jingle_bell2[] = {
+code const unsigned char jingle_bell2[] = {
 	8, m3, 1, 0, 8, m3, 1, 0, 
 	16, m3, 1, 0, 8, m3, 1, 0, 
 	8, m3, 1, 0, 16, m3, 1, 0, 
@@ -61,7 +65,30 @@ const unsigned char jingle_bell2[] = {
 	1, 0, 4, m3, 8, m5, 8, m4, 
 	8, m3, 8, m2, 32, m1
 };
+
+void play_music(void)
+{
+	unsigned char i;
+	unsigned char len = sizeof(jingle_bell2);
+	unsigned int delay;
+	unsigned char freq_l, freq_h;
+	unsigned int freq;
+	unsigned char pos;
 	
-	
-	
-	
+	for (i=0; i<len; i+=2)
+	{
+		delay = jingle_bell2[i];
+		pos = jingle_bell2[i + 1];
+		
+		delay &= 0x1f;	// 取后5位
+		delay *= 40;	// 单位40毫秒
+			
+		freq_h = pwm16b_mc[pos * 2];
+		freq_l = pwm16b_mc[pos * 2 + 1];
+		
+		freq = (freq_h << 8) + freq_l;
+		
+		load_pwm(freq);
+		//delay_ms(delay);
+	}
+}	
